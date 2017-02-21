@@ -1,0 +1,44 @@
+.head,.content{
+    width: 1000px;
+    margin: 0 auto;
+    border: 1px solid gainsboro;
+}
+h1{
+    color: aqua;
+    text-align: center;
+
+}
+.content{
+    overflow: hidden;
+}
+#indiv,#outdiv,#rediv{
+    float: left;
+    width: 33.33%;
+    padding: 20px;
+    box-sizing: border-box;
+
+}
+span{
+    margin: 5px;
+    font-weight: 800;
+}
+.intext{
+    margin: 5px;
+}
+.bigBtn{
+    margin: 0 auto;
+    width: 100px;
+    height: 30px;
+    font-size: 20px;
+    display: block;
+}
+.outtext{
+   line-height: 30px;
+    height: 30px;
+    margin: 5px;
+}
+.tobtn{
+    width: 50px;
+    height: 30px;
+    margin: 5px;
+}
