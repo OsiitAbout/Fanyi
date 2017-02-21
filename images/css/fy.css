@@ -4,7 +4,7 @@
     border: 1px solid gainsboro;
 }
 h1{
-    color: aqua;
+    color: black;
     text-align: center;
 
 }
@@ -13,10 +13,18 @@ h1{
 }
 #indiv,#outdiv,#rediv{
     float: left;
-    width: 33.33%;
     padding: 20px;
     box-sizing: border-box;
 
+}
+#indiv{
+    width: 25%;
+}
+#outdiv{
+    width: 30%;
+}
+#rediv{
+    width: 45%;
 }
 span{
     margin: 5px;

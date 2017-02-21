@@ -10,17 +10,28 @@ $(document).ready(function(){
     //批量处理调用函数
     $('#read_btn').off().click(function(){
         //获取txt文本
-        txtobj= $.ajax({url:"/images/txt/test",async:false});
+        //txtobj= $.ajax({url:"/images/txt/test",async:false});
        // $("#intext").html(txtobj.responseText);
         //转换成数组
-        var txtarr=txtobj.responseText.split("\n");
-
+       // var txtarr=txtobj.responseText.split("\n");
+        var inputVal
+        if($intxt.val()==""){
+            alert("请输入中文");
+        }else{
+           inputVal=$intxt.val();
+            // alert(val)
+        }
+       // console.log(inputVal)
+        var splitStr =/[,，、|;]/
+        var txtarr=inputVal.split(splitStr);
+        //$intxt.val(txtarr)
+        console.log(txtarr)
         for(var i=0;i<txtarr.length;i++){
-            $intxt.val(txtarr[i])
-            var inval=$intxt.val()
+           // $intxt.val(txtarr[i])
+            var inval=txtarr[i]
 
            //console.log( inval)
-            alert(inval)
+           // alert(txtarr[i])
             $.ajax({
                 type:"get",
                 //url:"http://fanyi.youdao.com/openapi.do?keyfrom=11pegasus11&key=273646050&type=data&doctype=jsonp&version=1.1",
@@ -29,18 +40,31 @@ $(document).ready(function(){
                 dataType:"json",
                 async:false,
                 success: function (result){
-                    var re=result.basic.explains;
-                    //console.log(re)
-                    $("#textdiv1").empty();
-                    //新建对应的结果文本框
-                    for(var j=0;j<re.length;j++){
-                        $("<input type='text'  id='"+"outtext"+j+"' class='outtext' "+"cols='30' rows='10'></input>").val(re[j]).appendTo("#textdiv")
-                       // $("#outtext"+i).after("<button id='tobtn"+i+"'"+"class = 'tobtn' >导出</button>"+"</br>")
-                        var  c= $('#resulttext1').val();
-                        $('#resulttext1').val( c+'"'+inval+'":{'+"\n"+'     "stype":"'+re[j]+'"'+"\n"+"},"+"\n")
+                    var re;
+                    if("basic" in result){
+                        re=result.basic.explains;
+                    }else{
+                        re=result.translation;
                     }
-                   // var a=$('[type=text]').val()
-                    //alert(a)
+                    //console.log(re)
+                    //$("#textdiv1").empty();
+                    if(re.length==1){
+                        //$("<input type='text'  id='"+"outtext"+j+"' class='outtext' "+"cols='30' rows='10'></input>").val(re[0]).appendTo("#textdiv")
+                        // $("#outtext"+i).after("<button id='tobtn"+i+"'"+"class = 'tobtn' >导出</button>"+"</br>")
+                        var  c= $('#resulttext1').val();
+                        $('#resulttext1').val( c+'"'+inval+'":{'+'"stype":"'+re[0].toUpperCase()+'"'+"},"+"\n")
+                    }else if(re.length>1){
+                        for(var j=0;j<re.length;j++){
+                          //  $("<input type='text'  id='"+"outtext"+j+"' class='outtext' "+"cols='30' rows='10'></input>").val(re[j]).appendTo("#textdiv")
+                            // $("#outtext"+i).after("<button id='tobtn"+i+"'"+"class = 'tobtn' >导出</button>"+"</br>")
+                            var  c= $('#resulttext1').val();
+                            $('#resulttext1').val( c+'"'+inval+'":{'+'"stype":"'+re[j].toUpperCase()+'"'+"},查重"+"\n")
+                        }
+                        // var a=$('[type=text]').val()
+                        //alert(a)
+                    }
+                    //新建对应的结果文本框
+
 
                 },
                 error: function () {//ajax请求失败后触发的方法
@@ -70,7 +94,7 @@ $(document).ready(function(){
             var b= $("#intext").val();
             //console.log(b)
             var  c= $('#resulttext1').val();
-            $('#resulttext1').val( c+'"'+b+'":{'+"\n"+'     "stype":"'+a+'"'+"\n"+"},"+"\n")
+            $('#resulttext1').val( c+'"'+b+'":{'+'"stype":"'+a+'"'+"},"+"\n")
             //console.log($('#resulttext1').val())
         })
         //对接服务器，获取翻译结果
